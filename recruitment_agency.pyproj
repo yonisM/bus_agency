@@ -45,7 +45,7 @@
     <Content Include="requirements.txt" />
     <Content Include="recruitment_agency\static\content\bootstrap.css" />
     <Content Include="recruitment_agency\static\content\bootstrap.min.css" />
-    <Content Include="recruitment_agency\static\content\site.css" />
+    <Content Include="recruitment_agency\static\content\styles.css" />
     <Content Include="recruitment_agency\static\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="recruitment_agency\static\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="recruitment_agency\static\fonts\glyphicons-halflings-regular.ttf" />
@@ -65,8 +65,6 @@
     <Content Include="recruitment_agency\static\scripts\respond.js" />
     <Content Include="recruitment_agency\static\scripts\respond.min.js" />
     <Content Include="recruitment_agency\static\scripts\_references.js" />
-    <Content Include="recruitment_agency\templates\about.html" />
-    <Content Include="recruitment_agency\templates\contact.html" />
     <Content Include="recruitment_agency\templates\index.html" />
     <Content Include="recruitment_agency\templates\layout.html" />
   </ItemGroup>
