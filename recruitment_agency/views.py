@@ -10,6 +10,7 @@ import os
 import psycopg2
 import boto3 
 import random
+import sys
 
 #Connect to DB in Heroku
 DATABASE_URL = 'postgres://nmycutomhjtncr:b8edfa3aaef122b3c98ad93d02487274627d438213a639e5b6d6151a4242a6d8@ec2-54-246-87-132.eu-west-1.compute.amazonaws.com:5432/d9bv6qupiocakn'
@@ -19,7 +20,7 @@ conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 #Conenct to AWS
 ACCESS_KEY="AKIAJINQRSUQW2XDYM4A"
 SECRET_KEY="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"
-s3 = boto3.client('s3', aws_access_key_id=ACCESS_KEY, aws_secret_access_key=SECRET_KEY)
+s3 = boto3.client('s3',aws_access_key_id=ACCESS_KEY, aws_secret_access_key=SECRET_KEY)
 
 
 
@@ -34,33 +35,60 @@ def home():
             fullname = request.form.get("Fullname")
             email = request.form.get("email")
             postcode = request.form.get("postcode")
-            licence = request.form.get("licence")
-            CPC = request.form.get("CPC")
-            CV = request.form.get("CV")
 
             random_number = random_number = random.randrange(10000,999999999999999999999999999)
             
 
-            #Upload files to images
-            if  request.files:
-                
-                image = request.files["licence"]
-                get_filename = image.filename
-                name_filename = str(random_number) + get_filename
+            #Get the files that have been uploaded by user
+            image_drivers_licence = request.files["licence"]
+            image_CPC = request.files["CPC"]
+            image_CV = request.files["CV"]
 
-                #Upload file to AWS S3
-                s3.Bucket("busrecruitmentagency").put_object(Key=name_filename, Body=image)
+            #Get the name of the file uploaded by user
+            get_filename_driver = image_drivers_licence.filename
+            get_filename_CPC = image_CPC.filename
+            get_filename_CV = image_CV.filename
 
-            
+
+            #Adding random value to filename to prevent S3 from rejecting duplicate names
+            name_filename_licence = str(random_number) + get_filename_driver
+            name_filename_CPC = str(random_number) + get_filename_CPC
+            name_filename_CV = str(random_number) + get_filename_CV
+           
+            #Upload the user's uploaded file to S3
+            s3.put_object(ACL='public-read', Body=image_drivers_licence, Bucket='busrecruitmentagency', Key=name_filename_licence)
+            s3.put_object(ACL='public-read', Body=image_CPC, Bucket='busrecruitmentagency', Key=name_filename_CPC)
+            s3.put_object(ACL='public-read', Body=image_CV, Bucket='busrecruitmentagency', Key=name_filename_CV)
+
+            #Return URL of file uploaded to S3
+            drivers_licence = "https://busrecruitmentagency.s3.eu-west-2.amazonaws.com/" + name_filename_licence
+            cpc = "https://busrecruitmentagency.s3.eu-west-2.amazonaws.com/" + name_filename_CPC
+            cv = "https://busrecruitmentagency.s3.eu-west-2.amazonaws.com/" + name_filename_CV
+
+
             #Send data to the database
             try: 
                 with conn:
                     with conn.cursor() as cursor:
-                        cursor.execute("INSERT into applicants VALUES(%s, %s, %s);", (
+
+                        cursor.execute("INSERT into applicants VALUES(%s, %s, %s, %s, %s, %s);", (
                         fullname,
                         email,
-                        postcode
+                        postcode,
+                        drivers_licence,
+                        cpc,
+                        cv
                         ))
+
+                        #Upload the user's uploaded file to S3
+                        s3.put_object(ACL='public-read', Body=image_drivers_licence, Bucket='busrecruitmentagency', Key=name_filename_licence)
+                        s3.put_object(ACL='public-read', Body=image_CPC, Bucket='busrecruitmentagency', Key=name_filename_CPC)
+                        s3.put_object(ACL='public-read', Body=image_CV, Bucket='busrecruitmentagency', Key=name_filename_CV)
+
+                        #Return URL of file uploaded to S3
+                        drivers_licence = "https://busrecruitmentagency.s3.eu-west-2.amazonaws.com/" + name_filename_licence
+                        cpc = "https://busrecruitmentagency.s3.eu-west-2.amazonaws.com/" + name_filename_CPC
+                        cv = "https://busrecruitmentagency.s3.eu-west-2.amazonaws.com/" + name_filename_CV
 
                         success = "Thanks, " + fullname + " we are working to process all applicants. We will get in touch with when we find a suitable opportunity."
                         
