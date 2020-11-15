@@ -50,27 +50,26 @@ def home():
             get_filename_CV = image_CV.filename
 
 
-            #Adding random value to filename to prevent S3 from rejecting duplicate names
+            #Adding random values in fromt of filename to prevent S3 from rejecting duplicate names
             name_filename_licence = str(random_number) + get_filename_driver
             name_filename_CPC = str(random_number) + get_filename_CPC
             name_filename_CV = str(random_number) + get_filename_CV
            
-            #Upload the user's uploaded file to S3
-            s3.put_object(ACL='public-read', Body=image_drivers_licence, Bucket='busrecruitmentagency', Key=name_filename_licence)
-            s3.put_object(ACL='public-read', Body=image_CPC, Bucket='busrecruitmentagency', Key=name_filename_CPC)
-            s3.put_object(ACL='public-read', Body=image_CV, Bucket='busrecruitmentagency', Key=name_filename_CV)
-
-            #Return URL of file uploaded to S3
-            drivers_licence = "https://busrecruitmentagency.s3.eu-west-2.amazonaws.com/" + name_filename_licence
-            cpc = "https://busrecruitmentagency.s3.eu-west-2.amazonaws.com/" + name_filename_CPC
-            cv = "https://busrecruitmentagency.s3.eu-west-2.amazonaws.com/" + name_filename_CV
 
 
-            #Send data to the database
+
+            #Send data to the database and S3
             try: 
                 with conn:
                     with conn.cursor() as cursor:
 
+                        #Return URL of file uploaded to S3
+                        drivers_licence = "https://busrecruitmentagency.s3.eu-west-2.amazonaws.com/" + name_filename_licence
+                        cpc = "https://busrecruitmentagency.s3.eu-west-2.amazonaws.com/" + name_filename_CPC
+                        cv = "https://busrecruitmentagency.s3.eu-west-2.amazonaws.com/" + name_filename_CV
+
+
+                        #Add the data into the database
                         cursor.execute("INSERT into applicants VALUES(%s, %s, %s, %s, %s, %s);", (
                         fullname,
                         email,
@@ -85,11 +84,7 @@ def home():
                         s3.put_object(ACL='public-read', Body=image_CPC, Bucket='busrecruitmentagency', Key=name_filename_CPC)
                         s3.put_object(ACL='public-read', Body=image_CV, Bucket='busrecruitmentagency', Key=name_filename_CV)
 
-                        #Return URL of file uploaded to S3
-                        drivers_licence = "https://busrecruitmentagency.s3.eu-west-2.amazonaws.com/" + name_filename_licence
-                        cpc = "https://busrecruitmentagency.s3.eu-west-2.amazonaws.com/" + name_filename_CPC
-                        cv = "https://busrecruitmentagency.s3.eu-west-2.amazonaws.com/" + name_filename_CV
-
+                        
                         success = "Thanks, " + fullname + " we are working to process all applicants. We will get in touch with when we find a suitable opportunity."
                         
 
