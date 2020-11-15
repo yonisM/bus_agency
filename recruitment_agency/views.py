@@ -88,12 +88,12 @@ def home():
                         success = "Thanks, " + fullname + " we are working to process all applicants. We will get in touch with when we find a suitable opportunity."
                         
 
-                        return render_template('confirmation.html', title='Home Page', fullname=fullname, email=email, success=success)
+                        return render_template('confirmation.html', title='Confirmation', fullname=fullname, email=email, success=success)
 
 
             except psycopg2.errors.UniqueViolation:
                 dupe = "Sorry, you have already submitted your application with us before. Once we find a suitable role, we will get in touch with you."
-                return render_template('confirmation.html', title='Home Page', dupe=dupe, fullname=fullname, email=email)
+                return render_template('confirmation.html', title='Duplicate data', dupe=dupe, fullname=fullname, email=email)
 
-    return render_template('index.html', title='Home Page')
+    return render_template('index.html', title='Unknown Agency')
 
