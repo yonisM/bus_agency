@@ -49,7 +49,7 @@ def home():
                 name_filename = str(random_number) + get_filename
 
                 #Upload file to AWS S3
-                s3.Bucket("busrecruitmentagency").put_object(Key="Passport.jpeg", Body="Passport.jpeg")
+                s3.Bucket("busrecruitmentagency").put_object(Key=name_filename, Body=image)
 
             
             #Send data to the database
