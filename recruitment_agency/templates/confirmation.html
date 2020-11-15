@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+
+{% block content %}
+
+
+<body id="page-top">
+    {% if success %}
+    <!-- Masthead-->
+
+    <header class="masthead1">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center justify-content-center text-center">
+                <div class="col-lg-10 align-self-end">
+                    <h1 class="text-uppercase font-weight-bold" style="color:green">We have successfully received your application</h1>
+                    <hr class="divider my-4" />
+                </div>
+                <div class="col-lg-8 align-self-baseline">
+                    <p class="font-weight-light mb-5">Thank you {{fullname}} for expressing your interest working with us. If we find a suitable opportunity for you, we will send an email to <span style="color:blue">{{email}}</span>. Please check your spam and junk email for confirmation email.  </p>
+
+                </div>
+            </div>
+        </div>
+    </header>
+
+    {% endif %}
+
+
+    {% if dupe %}
+    <!-- Masthead-->
+    <header class="masthead1">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center justify-content-center text-center">
+                <div class="col-lg-10 align-self-end">
+                    <h1 class="text-uppercase font-weight-bold" style="color:red">We already have your application in our systems</h1>
+                    <hr class="divider my-4" />
+                </div>
+                <div class="col-lg-8 align-self-baseline">
+                    <p class="font-weight-light mb-5">Hi {{fullname}}, you have already submitted an application using the email address {{email}}. Please allow us some time to process your application. Once we have an update we will get in touch with you.  </p>
+
+                </div>
+            </div>
+        </div>
+    </header>
+    {% endif %}
+
+
+</body>
+
+
+    {% endblock %}
