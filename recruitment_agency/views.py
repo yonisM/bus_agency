@@ -95,5 +95,5 @@ def home():
                 dupe = "Sorry, you have already submitted your application with us before. Once we find a suitable role, we will get in touch with you."
                 return render_template('confirmation.html', title='Duplicate data', dupe=dupe, fullname=fullname, email=email)
 
-    return render_template('index.html', title='Unknown Agency')
+    return render_template('index.html', title='Integrated Group Limited')
 
