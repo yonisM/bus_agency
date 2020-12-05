@@ -13,7 +13,7 @@ import random
 import sys
 
 #Connect to DB in Heroku
-DATABASE_URL = 'postgres://nmycutomhjtncr:b8edfa3aaef122b3c98ad93d02487274627d438213a639e5b6d6151a4242a6d8@ec2-54-246-87-132.eu-west-1.compute.amazonaws.com:5432/d9bv6qupiocakn'
+DATABASE_URL = 'postgres://naklrgmdeynszc:a03d0b95cbb2206a92c944ef4cff01ba95b342faea3adadf32915dc48e576993@ec2-34-252-98-12.eu-west-1.compute.amazonaws.com:5432/d1v07fd1ie2qui'
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
 
