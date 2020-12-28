@@ -11,6 +11,7 @@ import psycopg2
 import boto3 
 import random
 import sys
+import pandas as pd
 
 #Connect to DB in Heroku
 DATABASE_URL = 'postgres://naklrgmdeynszc:a03d0b95cbb2206a92c944ef4cff01ba95b342faea3adadf32915dc48e576993@ec2-34-252-98-12.eu-west-1.compute.amazonaws.com:5432/d1v07fd1ie2qui'
@@ -97,3 +98,11 @@ def home():
 
     return render_template('index.html', title='Integrated Group Limited')
 
+
+@app.route('/admin')
+def admin():
+
+    df = pd.read_sql_query('SELECT * from applicants', conn)
+    html = [df.to_html(classes='data')]
+
+    return render_template('admin.html', title='Admin', tables = html, headers=df.columns.values)
