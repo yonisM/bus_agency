@@ -65,7 +65,7 @@ def home():
                     with conn.cursor() as cursor:
 
                         #Return URL of file uploaded to S3
-                        drivers_licence = "https://busrecruitmen.s3.eu-west-2.amazonaws.com/" + name_filename_licence
+                        drivers_licence = "https://busrecruitment.s3.eu-west-2.amazonaws.com/" + name_filename_licence
                         cpc = "https://busrecruitment.s3.eu-west-2.amazonaws.com/" + name_filename_CPC
                         cv = "https://busrecruitment.s3.eu-west-2.amazonaws.com/" + name_filename_CV
 
