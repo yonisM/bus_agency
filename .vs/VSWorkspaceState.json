@@ -6,6 +6,6 @@
     "\\recruitment_agency\\static\\content",
     "\\recruitment_agency\\templates"
   ],
-  "SelectedNode": "\\recruitment_agency\\static\\content\\styles.css",
+  "SelectedNode": "\\recruitment_agency\\views.py",
   "PreviewInSolutionExplorer": false
 }

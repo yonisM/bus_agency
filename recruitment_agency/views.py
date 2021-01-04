@@ -11,16 +11,16 @@ import psycopg2
 import boto3 
 import random
 import sys
-import pandas as pd
+
 
 #Connect to DB in Heroku
-DATABASE_URL = 'postgres://naklrgmdeynszc:a03d0b95cbb2206a92c944ef4cff01ba95b342faea3adadf32915dc48e576993@ec2-34-252-98-12.eu-west-1.compute.amazonaws.com:5432/d1v07fd1ie2qui'
+DATABASE_URL = os.environ['DATABASE_URL']
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
 
 #Conenct to AWS
-ACCESS_KEY="AKIAJINQRSUQW2XDYM4A"
-SECRET_KEY="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"
+ACCESS_KEY= os.environ['ACCESS_KEY']
+SECRET_KEY= os.environ['SECRET_KEY']
 s3 = boto3.client('s3',aws_access_key_id=ACCESS_KEY, aws_secret_access_key=SECRET_KEY)
 
 
@@ -65,9 +65,9 @@ def home():
                     with conn.cursor() as cursor:
 
                         #Return URL of file uploaded to S3
-                        drivers_licence = "https://busrecruitmentagency.s3.eu-west-2.amazonaws.com/" + name_filename_licence
-                        cpc = "https://busrecruitmentagency.s3.eu-west-2.amazonaws.com/" + name_filename_CPC
-                        cv = "https://busrecruitmentagency.s3.eu-west-2.amazonaws.com/" + name_filename_CV
+                        drivers_licence = "https://busrecruitmen.s3.eu-west-2.amazonaws.com/" + name_filename_licence
+                        cpc = "https://busrecruitment.s3.eu-west-2.amazonaws.com/" + name_filename_CPC
+                        cv = "https://busrecruitment.s3.eu-west-2.amazonaws.com/" + name_filename_CV
 
 
                         #Add the data into the database
@@ -81,9 +81,9 @@ def home():
                         ))
 
                         #Upload the user's uploaded file to S3
-                        s3.put_object(ACL='public-read', Body=image_drivers_licence, Bucket='busrecruitmentagency', Key=name_filename_licence)
-                        s3.put_object(ACL='public-read', Body=image_CPC, Bucket='busrecruitmentagency', Key=name_filename_CPC)
-                        s3.put_object(ACL='public-read', Body=image_CV, Bucket='busrecruitmentagency', Key=name_filename_CV)
+                        s3.put_object(ACL='public-read', Body=image_drivers_licence, Bucket='busrecruitment', Key=name_filename_licence)
+                        s3.put_object(ACL='public-read', Body=image_CPC, Bucket='busrecruitment', Key=name_filename_CPC)
+                        s3.put_object(ACL='public-read', Body=image_CV, Bucket='busrecruitment', Key=name_filename_CV)
 
                         
                         success = "Thanks, " + fullname + " we are working to process all applicants. We will get in touch with when we find a suitable opportunity."
