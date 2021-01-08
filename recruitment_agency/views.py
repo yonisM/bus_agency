@@ -14,12 +14,12 @@ import sys
 
 
 #Connect to DB in Heroku
-#DATABASE_URL = os.environ['DATABASE_URL']
+DATABASE_URL = os.environ['DATABASE_URL']
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
 
 #Conenct to AWS
-#ACCESS_KEY= os.environ['ACCESS_KEY']
+ACCESS_KEY= os.environ['ACCESS_KEY']
 SECRET_KEY= os.environ['SECRET_KEY']
 s3 = boto3.client('s3',aws_access_key_id=ACCESS_KEY, aws_secret_access_key=SECRET_KEY)
 
